@@ -1,6 +1,6 @@
 <div align="center" id="readme-top">
 
-![EverOS banner](https://github.com/EverMind-AI/EverOS/releases/download/v1.0.0/everos-readme-banner.jpg)
+![EverOS banner](https://github.com/EverMind-AI/EverOS/releases/download/v1.0.0/everos-readme-banner-optimized.jpg)
 
 <p align="center">
   <a href="https://x.com/evermind"><img src="https://img.shields.io/badge/EverMind-000000?labelColor=gray&style=for-the-badge&logo=x&logoColor=white" alt="X"></a>
@@ -54,44 +54,30 @@
 <table>
 <tr>
 <td width="33%" valign="top">
-<strong>Markdown-First Memory</strong><br>
-记忆以普通 Markdown 持久化：可见、可审计、可手动编辑、Git 友好，并由用户自己拥有。
+<strong>Markdown As Source Of Truth</strong><br>
+所有记忆持久化为 <code>.md</code> 文件：可读、可改、可 grep、可 Git 版本化，也可直接用 Obsidian 打开。
 </td>
 <td width="33%" valign="top">
-<strong>Lightweight Local Stack</strong><br>
-用 Python 即可安装。SQLite 负责运行时状态；LanceDB 在本地提供向量、BM25 和结构化过滤检索。
+<strong>Local Three-Part Stack</strong><br>
+Markdown + SQLite + LanceDB 在本地完成向量、BM25 和标量过滤检索，无需 MongoDB、Elasticsearch 或 Redis。
 </td>
 <td width="33%" valign="top">
-<strong>Layered Memory Model</strong><br>
-用户记忆和 Agent 记忆现在是一等公民。Wiki 式知识层是路线图中的下一层。
+<strong>Dual-Track Memory</strong><br>
+Agent 记忆（<code>cases</code> / <code>skills</code>）与用户记忆（<code>episodes</code> / <code>profile</code>）独立提取，互不污染。
 </td>
 </tr>
 <tr>
-<td width="33%" valign="top">
-<strong>Self-Evolving Agents</strong><br>
-Agent 记忆可以从重复经验中提取可复用的 cases 和 skills，让工作流随着时间变得更聪明。
-</td>
 <td width="33%" valign="top">
 <strong>Multimodal Ingestion</strong><br>
-文本、图片、音频、文档、PDF、HTML 和邮件都可以通过可选的多模态管线解析进记忆。
+文本、图像、音频、文档、PDF、HTML 和邮件统一抽取为可检索的记忆形态。
 </td>
 <td width="33%" valign="top">
-<strong>Online And Offline Strategy Control</strong><br>
-在线提取和离线进化保持分离，并且每一步都可以配置 prompts 和 models。Dreaming 即将到来。
-</td>
-</tr>
-<tr>
-<td width="33%" valign="top">
-<strong>Orthogonal Memory Scope</strong><br>
-Owner、memory type 和 scope 相互独立：可以按 user、agent、app、project、session 和结构化 filters 搜索。
+<strong>Self-Evolution</strong><br>
+从真实使用经验中自动抽取共性 skills，重复模式沉淀为可复用流程，无需重训。
 </td>
 <td width="33%" valign="top">
-<strong>Progressive Disclosure</strong><br>
-可读记忆界面保持简单，同时更深层的 facts、cases 和 skills 仍然可以被系统使用。
-</td>
-<td width="33%" valign="top">
-<strong>Modular By Design</strong><br>
-EverAlgo 负责算法；EverOS 负责运行时、持久化、在线流程和离线进化。
+<strong>Orthogonal Retrieval</strong><br>
+按 <code>user_id</code>、<code>agent_id</code>、<code>app_id</code>、<code>project_id</code> 和 <code>session_id</code> 五维独立检索。
 </td>
 </tr>
 </table>

@@ -1,6 +1,6 @@
 <div align="center" id="readme-top">
 
-![EverOS banner](https://github.com/EverMind-AI/EverOS/releases/download/v1.0.0/everos-readme-banner.jpg)
+![EverOS banner](https://github.com/EverMind-AI/EverOS/releases/download/v1.0.0/everos-readme-banner-optimized.jpg)
 
 <p align="center">
   <a href="https://x.com/evermind"><img src="https://img.shields.io/badge/EverMind-000000?labelColor=gray&style=for-the-badge&logo=x&logoColor=white" alt="X"></a>
@@ -54,53 +54,36 @@
 <table>
 <tr>
 <td width="33%" valign="top">
-<strong>Markdown-First Memory</strong><br>
-Memory is persisted as plain Markdown: visible, auditable, hand-editable,
-Git-friendly, and owned by the user.
+<strong>Markdown As Source Of Truth</strong><br>
+All memory is persisted as <code>.md</code> files: readable, editable,
+grep-able, Git-versioned, and openable directly in Obsidian.
 </td>
 <td width="33%" valign="top">
-<strong>Lightweight Local Stack</strong><br>
-Install with Python. SQLite tracks runtime state; LanceDB powers vector,
-BM25, and scalar-filter retrieval locally.
+<strong>Local Three-Part Stack</strong><br>
+Markdown + SQLite + LanceDB keep vectors, BM25, and scalar filters
+local. No MongoDB, Elasticsearch, or Redis required.
 </td>
 <td width="33%" valign="top">
-<strong>Layered Memory Model</strong><br>
-User memory and agent memory are first-class today. Wiki-style knowledge
-is the next layer in the roadmap.
+<strong>Dual-Track Memory</strong><br>
+Agent memory (<code>cases</code> / <code>skills</code>) and user memory
+(<code>episodes</code> / <code>profile</code>) are extracted independently.
 </td>
 </tr>
 <tr>
-<td width="33%" valign="top">
-<strong>Self-Evolving Agents</strong><br>
-Agent memory can extract reusable cases and skills from repeated
-experience, so workflows become smarter over time.
-</td>
 <td width="33%" valign="top">
 <strong>Multimodal Ingestion</strong><br>
-Text, image, audio, documents, PDF, HTML, and email can be parsed into
-memory through the optional multimodal pipeline.
+Text, images, audio, documents, PDFs, HTML, and email are unified into
+searchable memory.
 </td>
 <td width="33%" valign="top">
-<strong>Online And Offline Strategy Control</strong><br>
-Online extraction and offline evolution stay separate, with configurable
-prompts and models at each step. Dreaming is coming next.
-</td>
-</tr>
-<tr>
-<td width="33%" valign="top">
-<strong>Orthogonal Memory Scope</strong><br>
-Owner, memory type, and scope are independent: search by user, agent,
-app, project, session, and structured filters.
+<strong>Self-Evolution</strong><br>
+Common skills are extracted from real usage; repeated patterns become
+reusable workflows, no retraining required.
 </td>
 <td width="33%" valign="top">
-<strong>Progressive Disclosure</strong><br>
-Readable memory surfaces stay simple while deeper facts, cases, and
-skills remain available.
-</td>
-<td width="33%" valign="top">
-<strong>Modular By Design</strong><br>
-EverAlgo owns algorithms; EverOS owns runtime, persistence, online flows,
-and offline evolution.
+<strong>Orthogonal Retrieval</strong><br>
+Search independently by <code>user_id</code>, <code>agent_id</code>,
+<code>app_id</code>, <code>project_id</code>, and <code>session_id</code>.
 </td>
 </tr>
 </table>
