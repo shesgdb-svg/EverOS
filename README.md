@@ -21,16 +21,12 @@
 
 <br>
 
-- [EverOS 1.0.0](#everos-100)
+- [Upcoming Features](#upcoming-features)
 - [Why Ever OS](#why-ever-os)
 - [Quick Start](#quick-start)
 - [Use Cases](#use-cases)
-- [Architecture At A Glance](#architecture-at-a-glance)
-- [Storage Layout](#storage-layout)
-- [Features](#features)
-- [Project Structure](#project-structure)
 - [Documentation](#documentation)
-- [Watch EverOS](#watch-everos)
+- [Star Us](#star-us)
 - [EverMind Ecosystems](#evermind-ecosystems)
 - [Contributing](#contributing)
 
@@ -39,19 +35,16 @@
 </details>
 
 
-## EverOS 1.0.0
+## Upcoming Features
 
 > [!IMPORTANT]
 >
-> **EverOS 1.0.0 is a major release for self-evolving memory.** It brings a
-> local-first runtime, Markdown as the source of truth, hybrid retrieval,
-> multimodal ingestion, user and agent memory scopes, and modular algorithms
-> through [EverAlgo](https://github.com/EverMind-AI/EverAlgo).
+> **Knowledge Wiki:** editable, source-backed Markdown knowledge pages built
+> from memory.
 >
-> **Coming next:** Knowledge Wiki will turn memory into editable,
-> source-backed Markdown knowledge pages. Reflection will run when the
-> system is idle or offline to connect signals, compress
-> history, and improve profiles and skills between sessions.
+> **Reflection:** idle-time and offline memory evolution that connects
+> signals, compresses history, and improves profiles and skills between
+> sessions.
 
 <br>
 <div align="right">
@@ -63,11 +56,11 @@
 
 ## Why Ever OS
 
-EverOS is the local memory operating system for agents and makers. It gives
-one portable memory layer across coding assistants, apps, devices, and
-workflows. Today it stores conversations, files, and agent trajectories as
-readable Markdown, then syncs local SQLite and LanceDB indexes for fast
-retrieval and self-evolving reuse.
+EverOS is a Python library and local-first memory runtime for agents and
+makers. It gives one portable memory layer across coding assistants, apps,
+devices, and workflows from day one. It stores conversations, files, and agent
+trajectories as readable Markdown, then syncs local SQLite and LanceDB indexes
+for fast retrieval and self-evolving reuse.
 
 <table>
 <tr>
@@ -100,16 +93,6 @@ retrieval and self-evolving reuse.
 <td>✅ Search by <code>user_id</code>, <code>agent_id</code>, <code>app_id</code>, <code>project_id</code>, and <code>session_id</code></td>
 <td>❌ Usually app, namespace, tenant, thread, or graph scoped</td>
 </tr>
-<tr>
-<td><strong>Knowledge Wiki</strong></td>
-<td>✅ Coming next: editable, source-backed Markdown knowledge pages built from memory</td>
-<td>❌ Usually retrieval, graph, dashboards, or generated summaries instead of editable source-backed pages</td>
-</tr>
-<tr>
-<td><strong>Reflection</strong></td>
-<td>✅ Coming next: Reflection that runs when the system is idle or offline to connect signals, compress history, and improve profiles and skills between sessions</td>
-<td>❌ Usually online read/write APIs, retrieval records, or summaries rather than idle-time memory consolidation</td>
-</tr>
 </table>
 
 <br>
@@ -122,7 +105,8 @@ retrieval and self-evolving reuse.
 
 ## Quick Start
 
-> Goal: start EverOS, write one memory, and search it back.
+> Goal: play with the memory visualizer first, then start EverOS, write one
+> real memory, and search it back.
 
 ### 0. Prerequisites
 
@@ -138,7 +122,43 @@ uv pip install everos
 # or: pip install everos
 ```
 
-### 2. Configure
+### 2. Play With The Demo
+
+Run this before configuring API keys or starting the server:
+
+```bash
+everos demo
+```
+
+The command asks for one memory and one recall question, then opens a
+full-screen terminal UI. This is an educational visualizer: it is hardcoded,
+local to the CLI, and does not connect to the EverOS server. Its job is to make
+the memory lifecycle visible: conversation -> memory sphere -> recall -> source
+proof -> confetti. See [docs/everos-demo.md](docs/everos-demo.md) for the demo
+scope and TUI source layout.
+
+The sphere moves through ingest, extraction, indexing, recall, source reveal,
+and a confetti burst after the first memory lands. Press `r` to replay and `q`
+to quit. The optimized animated preview is externally hosted so the repository
+stays light:
+
+<p align="center">
+  <img src="https://gist.githubusercontent.com/cyfyifanchen/afa2cf40bf138a3ec96d917e8f2791a2/raw/d4ce82a6ddd7b3ebaf221e4825af993aeca5a7ce/everos-demo-tui-animation.svg" alt="Animated EverOS demo preview showing the memory sphere moving through recall and confetti states" width="720">
+</p>
+
+For the looping showroom view used in README media, run:
+
+```bash
+everos demo --cinematic
+```
+
+If your shell is not interactive, or you want a copyable preview, use:
+
+```bash
+everos demo --plain
+```
+
+### 3. Configure
 
 Generate a starter `.env` file, then fill the four API key slots shown in the
 generated comments. Only two distinct keys are needed with the defaults:
@@ -153,7 +173,7 @@ cp .env.example .env
 `everos init` writes `./.env` by default. Use `everos init --xdg` to
 write `${XDG_CONFIG_HOME:-~/.config}/everos/.env` instead.
 
-### 3. Start EverOS
+### 4. Start EverOS
 
 ```bash
 everos server start
@@ -177,7 +197,7 @@ The endpoint stack is OpenAI-protocol compatible (OpenAI / OpenRouter / vLLM /
 Ollama / DeepInfra) - override `*__BASE_URL` in the generated `.env` to point
 at any of them.
 
-### 4. Try Your First Memory
+### 5. Try Your First Memory
 
 Add a tiny conversation:
 
@@ -541,7 +561,7 @@ A context-native AI wearable that listens to everyday life and converts conversa
 
 #### Legacy OpenClaw Agent Memory
 
-Archived pre-1.0.0 plugin reference. New integrations should use the EverOS 1.0.0 API.
+Archived pre-1.0.0 plugin reference. New integrations should use the current EverOS API.
 
 [Learn more](docs/migration-to-1.0.0.md)
 
@@ -615,115 +635,15 @@ Explore stored entities and relationships in a graph interface. Frontend demo; b
 
 </div>
 
-## Architecture At A Glance
-
-```
-┌───────────────────────────────────────────────┐
-│  entrypoints/  (CLI + HTTP API)                │  presentation
-├───────────────────────────────────────────────┤
-│  service/      (use cases: memorize/retrieve)  │  application
-├───────────────────────────────────────────────┤
-│  memory/       (extract + search + cascade)    │  domain
-├───────────────────────────────────────────────┤
-│  infra/        (markdown / sqlite / lancedb)   │  infrastructure
-└───────────────────────────────────────────────┘
-        ↑                    ↑
-   component/            core/
-   (LLM/Embedding)       (observability/lifespan)
-```
-
-DDD 5 layers, single-direction dependency. See [docs/architecture.md](docs/architecture.md).
-
-<br>
-<div align="right">
-
-[![](https://img.shields.io/badge/-Back_to_top-gray?style=flat-square)](#readme-top)
-
-</div>
-
-## Storage Layout
-
-```
-~/.everos/
-├── default_app/                  # app_id  ("default" → "default_app" on disk)
-│   └── default_project/          # project_id ("default" → "default_project")
-│       ├── users/<user_id>/
-│       │   ├── user.md           # profile
-│       │   ├── episodes/         # daily-log episodes (visible)
-│       │   ├── .atomic_facts/    # nested facts (dotfile-hidden)
-│       │   └── .foresights/      # predictive memory (dotfile-hidden)
-│       └── agents/<agent_id>/
-│           ├── agent.md
-│           ├── .cases/           # one task case per entry
-│           └── skills/           # named procedural memories
-├── .index/                       # derived indexes (rebuildable from md)
-│   ├── sqlite/system.db          # state + queue + audit
-│   └── lancedb/*.lance/          # vector + BM25 + scalar
-└── .tmp/                         # transient working files
-```
-
-Open any `<app>/<project>/users/<user_id>/` folder in Obsidian — your
-agent's brain is just files. The dotfile directories (`.atomic_facts/`,
-`.foresights/`, `.cases/`) stay hidden by default so the visible folder
-is the user-facing memory surface, while extracted derivatives sit
-quietly alongside.
-
-<br>
-<div align="right">
-
-[![](https://img.shields.io/badge/-Back_to_top-gray?style=flat-square)](#readme-top)
-
-</div>
-
-## Features
-
-- **Hybrid retrieval**: BM25 + cosine vector ANN + scalar filters, backed by LanceDB
-- **Cascade index sync**: edit a `.md` → file watcher → entry-level diff → LanceDB sync, sub-second
-- **Multi-source extraction**: conversations / agent trajectories / file knowledge
-- **Dual-track memory**: user-track (Episodes / Profiles) + agent-track (Cases / Skills)
-- **Async-first**: full asyncio, single event loop
-- **Multi-modal**: text + small image / audio inline; large media via S3/OSS reference
-
-<br>
-<div align="right">
-
-[![](https://img.shields.io/badge/-Back_to_top-gray?style=flat-square)](#readme-top)
-
-</div>
-
-## Project Structure
-
-```
-everos/                        # repo root
-├── src/everos/                # main package (src layout)
-│   ├── entrypoints/           # cli + api
-│   ├── service/               # use case orchestration
-│   ├── memory/                # domain: extract + search + cascade + prompt_slots
-│   ├── infra/                 # storage: markdown + lancedb + sqlite
-│   ├── component/             # cross-cutting: llm / embedding / config / utils
-│   ├── core/                  # runtime: observability / lifespan / context
-│   └── config/                # configuration data + Settings schema
-├── tests/                     # unit / integration / golden / fixtures
-├── docs/                      # design docs
-└── .claude/                   # team-shared rules + skills (auto-loaded by Claude Code)
-```
-<br>
-<div align="right">
-
-[![](https://img.shields.io/badge/-Back_to_top-gray?style=flat-square)](#readme-top)
-
-</div>
-
 ## Documentation
 
-- [docs/overview.md](docs/overview.md) — Project overview & vision
-- [docs/architecture.md](docs/architecture.md) — DDD layered architecture & dependency rules
-- [docs/engineering.md](docs/engineering.md) — Engineering & dev-efficiency infrastructure (CI / tooling / Claude Code)
+- [docs/everos-demo.md](docs/everos-demo.md) — Demo scope and TUI source layout
+- [docs/how-memory-works.md](docs/how-memory-works.md) — Markdown, SQLite, LanceDB, and recall flow
 - [docs/use-cases.md](docs/use-cases.md) — Full use-case gallery and integration examples
-- [docs/migration-to-1.0.0.md](docs/migration-to-1.0.0.md) — Legacy API and infrastructure migration notes
+- [docs/engineering.md](docs/engineering.md) — Engineering and CI tooling
+- [docs/migration-to-1.0.0.md](docs/migration-to-1.0.0.md) — Legacy API migration notes
 - [CHANGELOG.md](CHANGELOG.md) — Release notes
 - [CONTRIBUTING.md](CONTRIBUTING.md) — How to contribute
-- [.claude/rules/](.claude/rules/) — Detailed coding conventions (auto-loaded by Claude Code)
 
 <br>
 <div align="right">
@@ -732,42 +652,11 @@ everos/                        # repo root
 
 </div>
 
+## Star Us
 
-
-## Watch EverOS
-
-EverOS 1.0.0 is the first release of a larger memory-system roadmap.
-Watch this repository for upcoming work on deeper idle-time and offline evolution,
-benchmark releases, and more real-world agent integrations.
-
-<table>
-<tr>
-<td width="50%" valign="top">
-<strong>Knowledge Wiki</strong><br>
-<br>
-Turns scattered episodes, files, facts, and agent traces into source-backed
-Markdown pages for people, projects, topics, decisions, and workflows. Memory
-becomes something users can read, correct, link, version, and open in their
-existing Markdown tools.
-</td>
-<td width="50%" valign="top">
-<strong>Reflection</strong><br>
-<br>
-Runs when the system is idle or offline to revisit stored memory, connect weak
-signals, compress noisy history into durable patterns, and improve profiles and
-skills. The agent gets better between active sessions, not only while you prompt
-it.
-</td>
-</tr>
-</table>
-
-Most memory systems stop at chat history, opaque profiles, or vector recall.
-EverOS keeps memory local, Markdown-native, auditable, and self-evolving: raw
-memory stays readable, derived knowledge becomes a wiki, and Reflection turns
-repeated experience into more useful long-term behavior.
-
-If EverOS is useful to your agent stack, starring the repo helps more
-builders discover it.
+If EverOS is useful to your agent stack, please star the repo. It helps more
+builders discover the project and gives the memory ecosystem a stronger signal
+to keep improving.
 
 ### Star History
 
@@ -789,7 +678,7 @@ EverMind is an open-source ecosystem for long-term memory, self-evolving agents,
 <th colspan="2">EverMind Open-Source Ecosystem</th>
 </tr>
 <tr>
-<td><strong>Core Memory Architecture</strong></td>
+<td><strong>Memory Runtime</strong></td>
 <td><a href="https://github.com/EverMind-AI/EverOS">EverOS</a> - the local memory operating system and research-backed runtime for agent and user memory.</td>
 </tr>
 <tr>
@@ -797,7 +686,7 @@ EverMind is an open-source ecosystem for long-term memory, self-evolving agents,
 <td><a href="https://github.com/EverMind-AI/EverAlgo">EverAlgo</a> - stateless extraction, ranking, parsing, and memory operators that power EverOS.</td>
 </tr>
 <tr>
-<td><strong>Alternative Architecture</strong></td>
+<td><strong>Hypergraph Memory</strong></td>
 <td><a href="https://github.com/EverMind-AI/HyperMem">HyperMem</a> - hypergraph memory for long-term conversations, with its own benchmark-backed topic -> episode -> fact retrieval method.</td>
 </tr>
 <tr>
@@ -831,7 +720,7 @@ Together, these repositories form EverMind's research-to-runtime stack: new memo
 
 ## Contributing
 
-Contributions are welcome across the whole repository: architecture methods, benchmark coverage, use-case examples, documentation, and bug fixes. Browse [Issues](https://github.com/EverMind-AI/EverOS/issues) to find a good entry point, then open a PR when you are ready.
+Contributions are welcome across the whole repository: memory methods, benchmark coverage, use-case examples, documentation, and bug fixes. Browse [Issues](https://github.com/EverMind-AI/EverOS/issues) to find a good entry point, then open a PR when you are ready.
 
 <br>
 
